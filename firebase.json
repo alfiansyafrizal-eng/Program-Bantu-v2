@@ -1,0 +1,29 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "start_server.exe",
+      "start_server.bat",
+      "*.exe",
+      "*.bat",
+      "*.zip",
+      "*.7z",
+      "*.msi",
+      "*.dll",
+      "*.log"
+    ],
+    "rewrites": [
+      {
+        "source": "/",
+        "destination": "/dashbord.html"
+      },
+      {
+        "source": "**",
+        "destination": "/dashbord.html"
+      }
+    ]
+  }
+}

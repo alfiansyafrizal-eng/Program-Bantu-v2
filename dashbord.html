@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Workspace</title>
+
+  <!-- Bootstrap core -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ✅ Bootstrap Icons (Fix) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Font Awesome (opsional tambahan) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Datepicker -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" />
+
+  <!-- CodeMirror core -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+
+  <!-- Tema dark -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+
+  <!-- Mode SQL -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/sql/sql.min.js"></script>
+
+  <!-- Autocomplete CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/hint/show-hint.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/hint/show-hint.min.js"></script>
+
+  <!-- Fonts + Custom CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="query.css" />
+</head>
+
+<script>
+  // Cegah akses tanpa login
+  if (!sessionStorage.getItem("isLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+
+<body>
+  <div class="background-glow"></div>
+
+  <div id="dashbord" class="layout" style="visibility:hidden;">
+    <aside class="sidebar" id="appSidebar">
+
+      <div class="app-header">
+        <div class="app-title">
+          <span class="logo-circle">PB</span>
+          <span class="app-name">Program Bantu</span>
+          <span class="logo-mini">PB</span>
+        </div>
+      </div>
+
+
+      <ul class="menu-nav">
+        <li class="menu-item active" data-target="convert" id="convert">
+          <i class="bi bi-receipt-cutoff"></i>
+          <span class="menu-text">ConvertBon</span>
+          <span class="indicator"></span>
+        </li>
+
+        <li class="menu-item" data-target="sng" id="sng">
+          <i class="bi bi-gear"></i>
+          <span class="menu-text">SNG</span>
+          <span class="indicator"></span>
+        </li>
+
+        <li class="menu-item" data-target="generate" id="generate">
+          <i class="bi bi-lightning-charge"></i>
+          <span class="menu-text">Generate</span>
+          <span class="indicator"></span>
+        </li>
+
+        <li class="menu-item" data-target="cctv" id="cctv">
+          <i class="bi bi-camera-video"></i>
+          <span class="menu-text">PassCCTV</span>
+          <span class="indicator"></span>
+        </li>
+
+        <li class="menu-item" data-target="wifi" id="wifi">
+          <i class="bi bi-wifi"></i>
+          <span class="menu-text">PassWifi</span>
+          <span class="indicator"></span>
+        </li>
+
+        <li class="menu-item" data-target="otp" id="otp">
+          <i class="bi bi-shield-lock"></i>
+          <span class="menu-text">OTP</span>
+          <span class="indicator"></span>
+        </li>
+
+        <li class="menu-item" id="btnOpenQuery">
+          <i class="bi bi-terminal"></i>
+          <span class="menu-text">Query</span>
+          <span class="indicator"></span>
+        </li>
+
+        <li class="menu-item" data-target="tutorial" id="tutorial">
+          <i class="bi bi-journal-text"></i>
+          <span class="menu-text">Tutorial</span>
+          <span class="indicator"></span>
+        </li>
+
+
+      </ul>
+
+    </aside>
+
+    <main class="dashboard-content">
+      <div class="top-panel">
+        <button id="toggleSidebarBtn" class="toggle-sidebar-btn"><i class="bi bi-list"></i></button>
+        <div class="user-info">
+          <span id="userInfo" class="user-name"></span>
+          <button id="btnLogout" class="btn-logout"><i class="bi bi-box-arrow-right"></i> Logout</button>
+        </div>
+      </div>
+
+      <!--MENU CONVERT BON-->
+      <div id="content-convert" class="content-section active">
+        <h4 class="form-title">Convert Bon</h4>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label>Masukan Bill_no</label>
+            <textarea class="form-group mb-3" id="inputBon" rows="4" placeholder="Contoh : 1234↩️23456"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Hasil Convert</label>
+            <textarea class="form-group mb-3" rows="4" id="outputBon" readonly=""
+              placeholder="Hasil Convert Muncul disini"></textarea>
+          </div>
+          <div class="form-group">
+            <label></label>
+            <button class="btn btn-execute" id="btnCopyBon">Copy Hasil</button>
+          </div>
+        </div>
+      </div>
+
+      <!--MENU SNG-->
+      <div id="content-sng" class="content-section">
+        <h4 class="form-title">Serial Number Generator</h4>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label>Kode Toko</label>
+            <input type="text" id="sngKodeToko" class="form-control mb-3 text-uppercase"
+              placeholder="Masukkan Kode Toko">
+          </div>
+          <div class="form-group">
+            <label>Aplikasi</label>
+            <select class="form-select mb-3" id="sngApp" required>
+              <option value="" disabled selected>--Pilih Aplikasi--</option>
+              <option value="SIS">SIS</option>
+              <option value="POS">POS</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Mac Address</label>
+            <input type="text" id="sngMac" class="form-control mb-3"
+              placeholder="Contoh: 00:1A:2B:3C:4D:5E atau 001A2B3C4D5E">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <button class="btn btn-execute" id="btnGenerateSng">Execute</button>
+            <span id="sngStatus" class="small-muted mt-1"></span>
+          </div>
+          <div class="form-group">
+            <label>SN</label>
+            <div class="input-copy-group mb-3">
+              <input type="text" placeholder="Hasil SN" id="sngResult" readonly="" class="form-control">
+              <button id="btnCopySng" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+            <label>Reg Pwd</label>
+            <div class="input-copy-group mb-3">
+              <input id="regpwdResult" type="text" placeholder="Hasil Reg Pwd" readonly="" class="form-control">
+              <button id="btnCopyRegpwd" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!--MENU GENERATE LINK-->
+      <div id="content-generate" class="content-section">
+        <h4 class="form-title">Generate Link</h4>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label>Kode Toko</label>
+            <input id="kodeToko" type="text" class="form-control mb-3"
+              placeholder="Masukkan Kode Toko (otomatis trigger saat 4 karakter)">
+          </div>
+          <div class="form-group">
+            <label>Nik</label>
+            <input id="nik" type="text" class="form-control mb-3" placeholder="Nik akan otomatis terisi">
+          </div>
+          <div class="form-group">
+            <label>Hasil Generate</label>
+            <div class="input-copy-group">
+              <input id="hasilgenerate" type="text" readonly="" class="form-control" placeholder="Hasil Generate">
+              <button id="btnCopyUrl" class="btn-copy">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label></label>
+            <button id="btnExecute" class="btn btn-execute">Execute</button>
+            <span id="statusBadge" class="small-muted mt-1"></span>
+          </div>
+        </div>
+      </div>
+
+      <!--MENU PASS CCTV-->
+      <div id="content-cctv" class="content-section">
+        <h4 class="form-title">PassCCTV</h4>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label>Kode Toko</label>
+            <input id="cctvkodeToko" type="text" class="form-control text-uppercase mb-3"
+              placeholder="Masukkan Kode Toko (otomatis trigger saat 4 karakter)">
+            <label>Nama Toko</label>
+            <input id="namaToko" type="text" class="form-control mb-3" placeholder="Nama Toko Auto Terisi" readonly="">
+          </div>
+          <div class="form-group">
+            <label>User Toko</label>
+            <div class="input-copy-group mb-3">
+              <input id="userToko" type="text" placeholder="User Toko Auto Terisi" readonly="" class="form-control">
+              <button id="btnCopyuserTokoCctv" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Pass Toko</label>
+            <div class="input-copy-group mb-3">
+              <input id="passToko" type="text" placeholder="Pass Toko Auto Terisi" readonly="" class="form-control">
+              <button id="btnCopypassTokoCctv" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Pass IT</label>
+            <div class="input-copy-group mb-3">
+              <input id="passAdmin" type="text" placeholder="Pass IT Auto Terisi" readonly="" class="form-control">
+              <button id="btnCopypassAdminCctv" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--MENU PASS WIFI-->
+      <div id="content-wifi" class="content-section">
+        <h4 class="form-title">PassWifi</h4>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label>Kode Toko</label>
+            <input id="wifiKodeToko" type="text" class="form-control text-uppercase mb-3"
+              placeholder="Masukkan Kode Toko (otomatis trigger saat 4 karakter)">
+            <label>Nama Toko</label>
+            <input id="wifiNamaToko" type="text" class="form-control mb-3" placeholder="Nama Toko Auto Terisi"
+              readonly="">
+          </div>
+          <div class="form-group">
+            <label>SSID 1</label>
+            <div class="input-copy-group mb-3">
+              <input id="ssid1" type="text" placeholder="SSID 1 Auto Terisi" readonly="" class="form-control">
+              <button id="btnCopySsid1" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Pass Wifi 1</label>
+            <div class="input-copy-group mb-3">
+              <input id="pass1" type="text" placeholder="Pass Wifi 1 Auto Terisi" readonly="" class="form-control">
+              <button id="btnCopyPass1" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>SSID 2</label>
+            <div class="input-copy-group mb-3">
+              <input id="ssid2" type="text" placeholder="SSID 2 Auto Terisi" readonly="" class="form-control">
+              <button id="btnCopySsid2" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Pass Wifi 2</label>
+            <div class="input-copy-group mb-3">
+              <input id="pass2" type="text" placeholder="Pass Wifi 2 Auto Terisi" readonly="" class="form-control">
+              <button id="btnCopyPass2" class="btn-copy" title="Copy" type="button">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--MENU OTP GENERATOR-->
+      <div id="content-otp" class="content-section">
+        <h4 class="form-title">OTP Generator</h4>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label>Pilih Jenis otp</label>
+            <select class="form-select mb-3" id="otptype">
+              <option value="" disabled selected>--Klik Untuk pilih OTP--</option>
+              <option value="unlock_finger">Unlock Finger</option>
+              <option value="adjust_so_partial">Adjust & Hapus Jadwal (So Partial, So Customize)</option>
+              <option value="adjust_so_grand">Adjust SO Grand</option>
+              <option value="hapus_so_grand">Hapus Jadwal SO Grand</option>
+              <option value="hapus_tag_so">Hapus Tag & Hapus So</option>
+              <option value="tambah_edit">Tambah Edit (Partial, Grand) & Hapus Jadwal So ST</option>
+            </select>
+          </div>
+
+          <!--FORM UNLOCK FINGER-->
+          <div id="UnlockFinger" style="display:none;">
+            <div id="KdTokoFinger" class="form-group">
+              <label>Kode Toko</label>
+              <input class="form-control text-uppercase" type="text" placeholder="Kode Toko (Uxxx)" />
+            </div>
+            <div id="TanggalFinger" class="form-group">
+              <label>Tanggal</label>
+              <input type="text" class="form-control datepicker-otp" placeholder="klik Untuk pilih tanggal" />
+            </div>
+            <div id="btnFinger" class="form-group">
+              <label></label>
+              <button class="btn-execute">Execute</button>
+            </div>
+            <div class="form-group">
+              <label>Hasil Otp</label>
+              <div class="input-copy-group mb-3">
+                <input type="text" class="form-control" id="ResultFinger" placeholder="Hasil OTP akan muncul di sini"
+                  readonly />
+                <button class="btn-copy" id="CopyFinger" title="Copy" type="button">
+                  <i class="fa fa-copy"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!---Adjust Partial--->
+          <div id="AdjustPartial" style="display:none;">
+            <div id="kdTokoPartial" class="form-group">
+              <label>Kode Toko</label>
+              <input class="form-control text-uppercase" placeholder="Kode Toko (Uxxx)" />
+            </div>
+            <div id="TanggalPartial" class="form-group">
+              <label>Tanggal SO</label>
+              <input type="text" class="form-control datepicker-otp" placeholder="klik Untuk pilih tanggal" />
+            </div>
+            <div id="NikPartial" class="form-group">
+              <label>Nik</label>
+              <input class="form-control" placeholder="NIK" />
+            </div>
+            <div id="btnPartial" class="form-group">
+              <label></label>
+              <button class="btn-execute">Execute</button>
+            </div>
+            <div class="form-group">
+              <label>Hasil Otp</label>
+              <div class="input-copy-group">
+                <input class="form-control" id="ResultPartial" placeholder="Hasil OTP akan muncul di sini" readonly />
+                <button class="btn-copy" id="CopyPartial" title="Copy" type="button">
+                  <i class="fa fa-copy"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!---Adjust SO Grand--->
+          <div id="AdjustGrand" style="display:none;">
+            <div id="kdTokoAdjustGrand" class="form-group">
+              <label>Kode Toko</label>
+              <input class="form-control text-uppercase" placeholder="Kode Toko (UXXX)" />
+            </div>
+            <div id="ReferensiAdjustGrand" class="form-group">
+              <label>Referensi</label>
+              <input class="form-control" type="text" placeholder="Masukan Referensi">
+            </div>
+            <div id="TotalAdjustGrand" class="form-group">
+              <label>Total Rupiah Adjust</label>
+              <input class="form-control" type="text" placeholder="Masukan Total Rupiah">
+            </div>
+            <div id="btnAdjustGrand" class="form-group">
+              <label></label>
+              <button class="btn-execute">Execute</button>
+            </div>
+            <div class="form-group">
+              <label>Hasil Otp</label>
+              <div class="input-copy-group">
+                <input class="form-control" id="ResultAdjustGrand" placeholder="Hasil OTP akan muncul di sini" readonly
+                  ?>
+                <button class="btn-copy" id="CopyAdjustGrand" title="Copy" type="button">
+                  <i class="fa fa-copy"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!---Hapus So Grand--->
+          <div id="HapusJadwalGrand" style="display:none;">
+            <div id="kdTokoJadwalGrand" class="form-group">
+              <label>Kode Toko</label>
+              <input class="form-control text-uppercase" placeholder="Kode Toko (UXXX)" />
+            </div>
+            <div id="TanggalJadwalGrand" class="form-group">
+              <label>Tanggal</label>
+              <input class="form-control datepicker-otp" type="text" placeholder="Klik untuk pilih tanggal">
+            </div>
+            <div id="btnJadwalGrand" class="form-group">
+              <label></label>
+              <button class="btn-execute">Execute</button>
+            </div>
+            <div class="form-group">
+              <label>Hasil Otp</label>
+              <div class="input-copy-group">
+                <input class="form-control" id="ResultJadwalGrand" placeholder="Hasil OTP akan muncul di sini" readonly
+                  ?>
+                <button class="btn-copy" id="CopyJadwalGrand">
+                  <i class="fa fa-copy"></i>
+                </button>
+                <button class="btn-copy" id="CopyQrGrand">
+                  <i class="fa fa-qrcode"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!---Hapus Tag & SO--->
+          <div id="HapusTagSo" style="display:none;">
+            <div id="kdTokoHapusTagSo" class="form-group">
+              <label>Kode Toko</label>
+              <input class="form-control text-uppercase" placeholder="Kode Toko (UXXX)" />
+            </div>
+            <div id="TanggalHapusTagSo" class="form-group">
+              <label>Tanggal</label>
+              <input class="form-control datepicker-otp" type="text" placeholder="Klik untuk pilih tanggal">
+            </div>
+            <div id="btnHapusTagSo" class="form-group">
+              <label></label>
+              <button class="btn-execute">Execute</button>
+            </div>
+            <div class="form-group">
+              <label>Hapus Tag</label>
+              <div class="input-copy-group">
+                <input class="form-control" id="ResultHapusTag" placeholder="Otp Hapus Tag" readonly ?>
+                <button class="btn-copy" id="CopyHapusTag">
+                  <i class="fa fa-copy"></i>
+                </button>
+                <button class="btn-copy" id="CopyQrTag">
+                  <i class="fa fa-qrcode"></i>
+                </button>
+              </div>
+              <label>Hapus So</label>
+              <div class="input-copy-group">
+                <input class="form-control" id="ResultHapusSo" placeholder="Otp Hapus SO" readonly ?>
+                <button class="btn-copy" id="CopyHapusSo">
+                  <i class="fa fa-copy"></i>
+                </button>
+                <button class="btn-copy" id="CopyQrSo">
+                  <i class="fa fa-qrcode"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tambah Edit & Hapus Jadwal ST-->
+          <div id="TambahEdit" style="display:none;">
+            <div id="kdTokoTambahEdit" class="form-group">
+              <label>Kode Toko</label>
+              <input class="form-control text-uppercase" placeholder="Kode Toko (UXXX)" />
+            </div>
+            <div id="TanggalTambahEdit" class="form-group">
+              <label>Tanggal</label>
+              <input class="form-control datepicker-otp" type="text" placeholder="Klik untuk pilih tanggal">
+            </div>
+            <div id="ReferensiTambahEdit" class="form-group">
+              <label>Referensi</label>
+              <input class="form-control" type="text" placeholder="Masukan No Referensi">
+            </div>
+            <div id="btnTambahEdit" class="form-group">
+              <label></label>
+              <button class="btn-execute">Execute</button>
+            </div>
+            <div class="form-group">
+              <label>Hasil Otp</label>
+              <div class="input-copy-group">
+                <input class="form-control" id="ResultTambahEdit" placeholder="Hasil OTP akan muncul di sini" readonly
+                  ?>
+                <button class="btn-copy" id="CopyTambahEdit">
+                  <i class="fa fa-copy"></i>
+                </button>
+                <button class="btn-copy" id="CopyQrTambahEdit">
+                  <i class="fa fa-qrcode"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- === QUERY PANEL SLIDE KANAN === -->
+      <!-- === MENU QUERY === -->
+      <div id="content-query" class="content-section">
+        <!--<h4 class="form-title">SQL Query Workspace</h4>-->
+
+        <div class="query-main">
+          <!-- Panel Atas -->
+          <!-- 🔹 Status bar koneksi dan jam real-time -->
+          <div id="statusBar" class="status-bar">
+            <span id="connectionInfo">🔴 Tidak terhubung ke server</span>
+            <span id="dateTimeInfo">🕒</span>
+          </div>
+
+          <div class="query-top">
+            <textarea id="queryInput" placeholder="Tulis query di sini..."></textarea>
+            <div id="notifyBox" class="notify"></div>
+          </div>
+
+
+          <!-- Panel Bawah -->
+          <div class="query-bottom">
+            <div id="resultArea" class="result-container">Belum ada hasil</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- === QUERY PANEL KANAN === -->
+      <div id="queryPanel" class="query-panel">
+        <div class="query-panel-header">
+          <h5>Query Control</h5>
+          <button id="closeQueryPanel" class="btn-close-panel"><i class="bi bi-x-lg"></i></button>
+        </div>
+
+        <div class="query-panel-buttons">
+          <!-- Tombol New + form -->
+          <div id="newConnectionContainer">
+            <button id="btnNew" class="btn-small">
+              <i class="bi bi-file-earmark-plus"></i> New
+            </button>
+
+            <!-- FORM INPUT KONEKSI (muncul di bawah tombol New) -->
+            <div id="connectionForm" class="connection-form">
+              <input type="text" id="serverInput" placeholder="Server / IP">
+              <input type="number" id="portInput" placeholder="Port">
+              <input type="text" id="userInput" placeholder="Username (sa)">
+              <input type="password" id="passwordInput" placeholder="Password">
+              <input type="text" id="dbInput" placeholder="Database">
+              <button id="btnConnect" class="btn-connect">Connect</button>
+              <div id="connectStatus" class="connect-status"></div>
+            </div>
+          </div>
+
+          <!-- Tombol lainnya -->
+          <button id="btnExecutequery" class="btn-small"><i class="bi bi-play-circle"></i> Execute</button>
+          <button id="btnStructure" class="btn-small"><i class="bi bi-diagram-3"></i> Structure</button>
+          <button id="btnSubmit" class="btn-small"><i class="bi bi-send"></i> Submit</button>
+        </div>
+      </div>
+
+      <!-- === MENU TUTORIAL === -->
+      <div id="content-tutorial" class="content-section">
+        <div class="panel-header">
+          <h4 class="form-title">📘 Menu Tutorial</h4>
+          <button id="btnNewTutorial" class="btn-execute">
+            <i class="bi bi-plus-lg"></i> Buat Tutorial
+          </button>
+        </div>
+
+        <!-- Tabel daftar tutorial -->
+        <div id="tutorialList" class="table-container">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th>Judul</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tutorialTableBody">
+              <tr>
+                <td colspan="3" class="empty">📭 Belum ada tutorial</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Overlay editor -->
+        <div id="tutorialEditor" class="popup-overlay" style="display:none;">
+          <div class="popup-content">
+            <h4 class="form-title mb-3">📘 Buat Tutorial Baru</h4>
+            <input id="tutorialTitleInput" class="form-control" placeholder="Judul tutorial..." />
+            <div id="stepsContainer"></div>
+
+            <div class="tutorial-buttons">
+              <button id="addStep" class="btn-execute"><i class="bi bi-plus"></i> Tambah Langkah</button>
+              <button id="btnSaveTutorial" class="btn-execute"><i class="bi bi-save"></i> Simpan Tutorial</button>
+              <button id="btnCancelTutorial" class="btn-cancel">❌ Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </main>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- === [2] Bootstrap Datepicker === -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+
+  <!-- === [3] CryptoJS (HARUS setelah semua dependensi umum, sebelum script kamu) === -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+
+  <!-- === [4] Firebase === -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script src="configfirebase.js"></script>
+
+  <script src="userinfo.js"></script>
+  <script src="generate.js"></script>
+  <script src="passcctv.js"></script>
+  <script src="passwifi.js"></script>
+  <script src="script.js"></script>
+  <script src="otp.js"></script>
+  <script src="convertbon.js"></script>
+  <script src="sng.js"></script>
+  <script src="logout.js"></script>
+  <script src="auth-cek.js"></script>
+  <script src="akses-menu.js"></script>
+  <script src="query.js"></script>
+  <script src="tutorial.js"></script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+# Firebase ignore list
+node_modules
+start_server.exe
+start_server.bat
+*.exe
+*.bat
+*.zip
+*.7z
+*.msi
+*.dll
+*.log
+firebase.json
+package*.json

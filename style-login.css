@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* === GLOBAL === */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #0b0b12, #060609);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* === BACKGROUND GLOW === */
+.background-glow {
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(circle at center, #ff6600, #6a11cb 70%);
+  filter: blur(180px);
+  opacity: 0.5;
+  z-index: 0;
+  animation: moveGlow 12s ease-in-out infinite alternate;
+}
+
+@keyframes moveGlow {
+  from {
+    transform: translate(-60px, -40px);
+  }
+
+  to {
+    transform: translate(60px, 40px);
+  }
+}
+
+/* === LOGIN CARD === */
+.login-card {
+  background: rgba(30, 30, 40, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  width: 360px;
+  text-align: left;
+  z-index: 2;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.5);
+}
+
+/* === BUTTON === */
+.btn-login,
+.btn-primary {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #4a2bff, #8a00d4);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-execute:hover,
+.btn-logout:hover,
+.btn-login:hover,
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}

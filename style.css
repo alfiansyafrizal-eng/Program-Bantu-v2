@@ -1,0 +1,1439 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* === GLOBAL === */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #0b0b12, #060609);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* === BACKGROUND GLOW === */
+.background-glow {
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(circle at center, #ff6600, #6a11cb 70%);
+  filter: blur(180px);
+  opacity: 0.5;
+  z-index: 0;
+  animation: moveGlow 12s ease-in-out infinite alternate;
+}
+
+@keyframes moveGlow {
+  from {
+    transform: translate(-60px, -40px);
+  }
+
+  to {
+    transform: translate(60px, 40px);
+  }
+}
+
+/* === LOGIN CARD === */
+.login-card {
+  background: rgba(30, 30, 40, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  width: 360px;
+  text-align: left;
+  z-index: 2;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.5);
+}
+
+/* === BUTTON === */
+.btn-login,
+.btn-primary {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #4a2bff, #8a00d4);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-execute:hover,
+.btn-logout:hover,
+.btn-login:hover,
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* === DASHBOARD === */
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.dashbord {
+  display: none;
+}
+
+.sidebar {
+  width: 220px;
+  background: rgba(16, 16, 24, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 18px 0 18px 12px;
+  padding-left: 10px; /* turunkan sedikit */
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: width .3s ease, padding .3s ease;
+}
+
+
+.menu-item {
+  padding: 10px 10px;
+  /* geser sedikit biar sejajar dengan logo PB */
+}
+
+.menu-item i {
+  margin-left: 0;        /* hapus jarak tambahan kiri */
+  width: 22px;           /* beri lebar tetap agar semua ikon rata */
+  text-align: center;
+}
+
+
+
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(90deg, #4a2bff, #8a00d4);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0px;
+  gap: 8px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  color: #c8c8d0;
+  font-size: .92rem;
+  transition: .25s;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+
+.menu-item.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.indicator {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  width: 4px;
+  height: 0;
+  background: linear-gradient(180deg, #7b2fff, #d100ff);
+  border-radius: 4px;
+  transition: .25s ease;
+  opacity: 0;
+}
+
+.menu-item.active .indicator {
+  height: 22px;
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 100px 44px 28px;
+  /* jarak atas lebih besar agar di bawah top panel */
+  overflow-y: auto;
+  position: relative;
+}
+
+.content-section {
+  display: none;
+}
+
+.content-section.active {
+  display: block;
+}
+
+
+/* === TOP PANEL === */
+.top-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: fixed;
+  top: 0;
+  left: 220px;
+  /* sejajar dengan lebar sidebar */
+  right: 0;
+  transition: left 0.3s ease;
+  z-index: 9999;
+  backdrop-filter: blur(14px);
+}
+
+
+.toggle-sidebar-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.toggle-sidebar-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-info .user-name {
+  color: #eaeaea;
+  font-weight: 500;
+}
+
+.btn-execute,
+.btn-logout {
+  background: linear-gradient(90deg, #4a2bff, #8a00d4);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-logout:hover {
+  opacity: 0.9;
+}
+
+.sidebar.collapsed~.dashboard-content .top-panel {
+  left: 72px;
+  /* posisi top-panel ikut menyesuaikan sidebar mengecil */
+}
+
+.sidebar.collapsed {
+  width: 72px;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed .menu-text {
+  display: none;
+}
+
+/* ==== Sidebar Header Logo ==== */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+/* ===== HEADER APP LOGO ===== */
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  justify-content: center;
+  color: #fff;
+}
+
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a2bff, #8a00d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.app-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+.logo-mini {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a2bff, #8a00d4);
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+/* ===== COLLAPSED MODE ===== */
+.sidebar.collapsed {
+  width: 72px !important;
+  transition: width 0.3s ease;
+}
+
+/* ==== NORMAL STATE ==== */
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  justify-content: center;
+  color: #fff;
+}
+
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a2bff, #8a00d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.app-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+.logo-mini {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a2bff, #8a00d4);
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+/* ==== COLLAPSE MODE ==== */
+.sidebar.collapsed {
+  width: 72px !important;
+  transition: width 0.3s ease;
+}
+
+/* Sembunyikan logo bulat dan tulisan besar */
+.sidebar.collapsed .logo-circle,
+.sidebar.collapsed .app-name {
+  display: none !important;
+}
+
+.sidebar.collapsed .menu-text,
+.sidebar.collapsed .profile-text {
+  display: none;
+  /* sembunyikan teks menu & program bantu */
+}
+
+/* Tampilkan PB kecil */
+.sidebar.collapsed .logo-mini {
+  display: block !important;
+}
+
+/* Sembunyikan teks menu */
+.sidebar.collapsed .menu-text,
+.sidebar.collapsed .profile-text {
+  display: none !important;
+}
+
+/* Rapatkan ikon menu */
+.sidebar.collapsed .menu-item {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.sidebar.collapsed .menu-item i {
+  font-size: 1.25rem !important;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================= */
+/* >>> FINAL COLLAPSE FIX <<<    */
+/* ============================= */
+
+/* Pastikan teks menu hilang total */
+.sidebar.collapsed ul.menu-nav li.menu-item span.menu-text {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}
+
+/* Pastikan teks profil juga hilang */
+.sidebar.collapsed .profile-text {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Sesuaikan posisi ikon menu di tengah */
+.sidebar.collapsed .menu-item {
+  justify-content: center !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.sidebar.collapsed .menu-item i {
+  font-size: 1.3rem !important;
+  margin: 0 auto !important;
+}
+
+/* Logo normal disembunyikan, logo-mini aktif */
+.sidebar.collapsed .app-name,
+.sidebar.collapsed .logo-circle {
+  display: none !important;
+}
+
+.sidebar.collapsed .logo-mini {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+/* ===== FORM HORIZONTAL ===== */
+.form-horizontal .form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px; /* jarak antara label dan input */
+}
+
+.form-horizontal label {
+  width: 110px;           /* lebar tetap label */
+  text-align: left;      /* rata kanan supaya dekat input */
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.form-horizontal input,
+.form-horizontal select,
+.form-horizontal textarea {
+  flex: 1;                /* input menyesuaikan lebar container */
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Hilangkan outline biru bawaan browser */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: #ff6600 !important;
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.4) !important;
+}
+
+/* === OVERRIDE BOOTSTRAP FORM CONTROL (BIAR MIRIP LOGIN) === */
+/* === UNIFIKASI INPUT & DROPDOWN === */
+.form-control,
+.form-select {
+  background: rgba(255, 255, 255, 0.04) !important; /* transparan lembut */
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  transition: all 0.25s ease;
+  appearance: none !important; /* hilangkan style native dropdown */
+  padding: 10px 12px;
+}
+
+/* === Dropdown arrow custom (biar estetik seperti input) === */
+.form-select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 16 16'><path d='M1.5 5.5l6 6 6-6'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  background-size: 14px 14px !important;
+}
+
+/* === Saat Fokus === */
+.form-control:focus,
+.form-select:focus {
+  outline: none !important;
+  border-color: #ff6600 !important;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.4) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #fff !important;
+}
+
+/* === Placeholder / Text Style === */
+.form-control::placeholder,
+.form-select::placeholder {
+  color: #cccccc41 !important;
+  opacity: 1;
+}
+
+/* === Readonly Input (hasil SN & RegPwd) === */
+.form-control[readonly] {
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: #aaa !important;
+}
+
+/* === PERBAIKAN FINAL UNTUK DROPDOWN === */
+.form-select {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  outline: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transition: all 0.25s ease;
+}
+
+/* Gaya hover & focus */
+.form-select:hover,
+.form-select:focus {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: #ff6600 !important;
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.4) !important;
+  color: #fff !important;
+}
+
+/* Gaya opsi di dalam dropdown */
+.form-select option {
+  background-color: #12121a !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+/* Hapus outline biru khas browser */
+select:focus-visible {
+  outline: none !important;
+}
+
+/* Placeholder-style (untuk opsi pertama kosong) */
+.form-select:invalid {
+  color: #aaaaaa50 !important;
+}
+
+.small-muted {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.mb-3 .small-muted {
+  margin-top: 2px;
+}
+
+.btn1 {
+  border-radius: 8px;
+  height: 44px;
+}
+
+/* === INPUT DENGAN TOMBOL COPY === */
+.input-copy-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* jarak antar tombol dan input */
+  width: 100%;
+}
+
+.input-copy-group input {
+  flex: 1 1 auto;
+  min-width: 0; 
+  padding-right: 100px; /* ruang kanan buat tombol */
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+}
+
+.input-copy-group input:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.5);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Tombol copy di kanan input */
+.btn-copy {
+  position: static;
+  right: 6px;
+  height: 32px;
+  width: 32px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: #ddd;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.btn-copy:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.btn-copy i {
+  font-size: 0.9rem;
+}
+
+/* Biar sejajar di form horizontal */
+.form-horizontal .input-copy-group {
+  flex: 1;
+}
+
+/* === RESPONSIVE DASHBOARD & FORM === */
+
+/* 🌐 Lebar <= 1024px (Tablet) */
+@media (max-width: 1024px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  /* Sidebar berubah jadi overlay */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* Top panel menyesuaikan */
+  .top-panel {
+    left: 0 !important;
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  /* Konten dashboard lebih longgar */
+  .dashboard-content {
+    padding: 80px 24px 28px;
+  }
+
+  /* Form group tetap vertikal */
+  .form-horizontal .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-horizontal label {
+    width: 100%;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+
+  .form-horizontal input,
+  .form-horizontal select,
+  .form-horizontal textarea {
+    width: 100%;
+  }
+
+  /* Tombol copy biar tetap proporsional */
+  .btn-copy {
+    height: 34px;
+    width: 34px;
+  }
+}
+
+/* 📱 Lebar <= 768px (HP Portrait) */
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .top-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    padding: 0 14px;
+  }
+
+  .dashboard-content {
+    padding: 80px 16px 40px;
+  }
+
+  /* Form lebih kompak */
+  .form-horizontal .form-group {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-horizontal label {
+    font-size: 0.85rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 0.95rem;
+    padding: 8px 10px;
+  }
+
+  .btn-primary,
+  .btn-execute,
+  .btn-login {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+
+  /* Sidebar mini otomatis */
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar.collapsed {
+    width: 72px;
+  }
+
+  /* Hilangkan bayangan agar ringan di HP */
+  .input-copy-group input {
+    box-shadow: none;
+  }
+}
+
+/* 📱 Lebar <= 480px (HP kecil) */
+@media (max-width: 480px) {
+  .app-title {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .logo-circle,
+  .logo-mini {
+    width: 36px;
+    height: 36px;
+  }
+
+  .btn-copy {
+    height: 30px;
+    width: 30px;
+  }
+
+  .btn-primary,
+  .btn-execute,
+  .btn-login {
+    width: 100%;
+  }
+}
+
+/* === FIX: RESPONSIVE SIDEBAR SHRINK MODE on MOBILE === */
+
+/* Saat sidebar aktif di mobile, dorong konten ke kanan */
+@media (max-width: 1024px) {
+  .layout {
+    overflow-x: hidden;
+  }
+
+  .sidebar {
+    width: 200px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease, width 0.3s ease;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* Konten ikut bergeser saat sidebar tampil */
+  .dashboard-content.sidebar-active {
+    transform: translateX(200px);
+    transition: transform 0.3s ease;
+  }
+
+  /* Top panel di layar kecil tetap di atas dan rapi */
+  .top-panel {
+    left: 0;
+    right: 0;
+    padding: 0 16px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Pastikan tombol toggle tetap di kiri dan user-info di kanan */
+  .toggle-sidebar-btn {
+    position: relative;
+    order: 1;
+  }
+
+  .user-info {
+    order: 2;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  /* Sidebar shrink mode: hanya logo dan ikon */
+  .sidebar.shrink .app-name,
+  .sidebar.shrink .menu-text {
+    display: none !important;
+  }
+
+  .sidebar.shrink .logo-circle {
+    display: none !important;
+  }
+
+  .sidebar.shrink .logo-mini {
+    display: flex !important;
+  }
+
+  .sidebar.shrink {
+    width: 72px !important;
+  }
+}
+
+/* ✅ RESPONSIVE MOBILE FIX */
+@media (max-width: 1024px) {
+
+  /* Sidebar default: hidden */
+  .sidebar {
+    width: 60px !important;
+    transform: translateX(-100%);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh !important;
+    position: fixed;
+    z-index: 100;
+  }
+
+  /* Saat toggle → sidebar muncul */
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* Hanya icon menu yang tampil */
+  .sidebar .menu-text,
+  .sidebar .app-name,
+  .profile-text {
+    display: none !important;
+  }
+
+  .logo-circle {
+    display: none !important;
+  }
+  .logo-mini {
+    display: flex !important;
+  }
+
+  .menu-item {
+    justify-content: center !important;
+  }
+
+  /* ✅ Tombol toggle HARUS muncul di mobile */
+  .toggle-sidebar-btn {
+    display: flex !important;
+    z-index: 200;
+  }
+
+  /* Form & top-panel geser mengikuti sidebar */
+  .dashboard-content.sidebar-active,
+  .top-panel.sidebar-active {
+    transform: translateX(60px) !important;
+    transition: .3s ease;
+  }
+
+  /* Top panel full width dan posisi fixed */
+  .top-panel {
+    left: 0 !important;
+    width: 100%;
+    z-index: 150;
+  }
+}
+
+/* ✅ FINAL MOBILE FIX — Sidebar Overlay Mode */
+@media (max-width: 1024px) {
+
+  /* Sidebar overlay */
+  .sidebar {
+    width: 60px !important;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh !important;
+    transform: translateX(-60px);
+    transition: transform .3s ease;
+    z-index: 200;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* 🔥 Top Panel full width — TIDAK geser */
+  .top-panel {
+    left: 0 !important;
+    width: 100% !important;
+    transition: none !important;
+  }
+
+  .top-panel.sidebar-active {
+    left: 0 !important;
+  }
+
+  /* 🔥 Form & konten — TIDAK geser */
+  .dashboard-content {
+    transform: none !important;
+    width: 100% !important;
+    padding: 80px 16px 24px !important;
+    overflow-x: hidden !important;
+  }
+
+  .dashboard-content.sidebar-active {
+    transform: none !important;
+  }
+
+  /* Hilangkan scroll horizontal forever */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100vw !important;
+  }
+
+  /* Hanya icon menu yang tampil */
+  .menu-text, .app-name, .profile-text, .logo-circle {
+    display: none !important;
+  }
+
+  .logo-mini {
+    display: flex !important;
+  }
+
+  /* Rapi icon menu */
+  .menu-item {
+    justify-content: center !important;
+    padding: 12px 0 !important;
+  }
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 20px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.form-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 60%;
+  background: linear-gradient(180deg, #7b2fff, #d100ff);
+  border-radius: 3px;
+  transform: translateY(-50%);
+}
+
+.form-subtitle {
+  font-size: .85rem;
+  color: #bfbfc4;
+  margin-top: -12px;
+  margin-bottom: 18px;
+}
+
+.form-title {
+  text-shadow: 0 0 6px rgba(136, 0, 204, 0.4);
+}
+
+/* === QUERY PANEL (SLIDE KANAN) === */
+.query-panel {
+  position: fixed;
+  top: 60px;
+  right: -280px;
+  width: 260px;
+  height: calc(100vh - 60px);
+  background: rgba(22, 22, 34, 0.85);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(18px);
+  transition: right 0.35s ease;
+  z-index: 9998;
+  padding: 18px;
+  border-radius: 12px 0 0 12px;
+}
+
+.query-panel.active {
+  right: 0;
+}
+
+.query-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.query-panel-header h5 {
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-close-panel {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-close-panel:hover {
+  color: #fff;
+}
+
+.query-panel-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-small {
+  background: linear-gradient(90deg, #4a2bff, #8a00d4);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-small:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* === AREA QUERY DI MAIN === */
+.query-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.query-top, .query-bottom {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.query-top label,
+.query-bottom label {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.query-top textarea,
+.query-bottom textarea {
+  width: 100%;
+  height: 220px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: 'Consolas', monospace;
+  font-size: 0.95rem;
+  resize: none;
+  outline: none;
+}
+
+
+/* === MENU TUTORIAL === */
+#content-tutorial .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+#content-tutorial .form-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+#tutorialList {
+  margin-top: 10px;
+}
+
+/* === POPUP OVERLAY === */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 11, 19, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+}
+
+.popup-content {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 14px;
+  width: 600px;
+  color: #fff;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.popup-content h3 {
+  margin-bottom: 15px;
+  color: #a98cff;
+}
+
+.tutorial-step {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.tutorial-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-cancel {
+  background: rgba(255, 70, 70, 0.2);
+  color: #ff7070;
+  border: 1px solid rgba(255, 70, 70, 0.4);
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 70, 70, 0.4);
+}
+
+.tutorial-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tutorial-table th, .tutorial-table td {
+  border: 1px solid #2b2b2b;
+  padding: 10px;
+  text-align: left;
+}
+
+.tutorial-table th {
+  background: #333;
+  color: #fff;
+}
+
+.tutorial-table td.aksi {
+  display: flex;
+  gap: 6px;
+}
+
+.aksi-btn {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.aksi-btn:hover {
+  background: #5b5b5b;
+}
+
+.aksi-btn.delete:hover {
+  background: #c0392b;
+}
+
+
+/* ====== Tutorial Table Style (Match Dashboard Theme) ====== */
+.tutorial-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  background: #1e1e2f;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.tutorial-table thead {
+  background: linear-gradient(90deg, #3a3a55, #282845);
+}
+
+.tutorial-table th {
+  padding: 14px 16px;
+  color: #b8aefc;
+  text-align: left;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-bottom: 1px solid #2f2f4a;
+}
+
+.tutorial-table td {
+  padding: 12px 16px;
+  color: #e1e1f0;
+  font-size: 15px;
+  border-bottom: 1px solid #2a2a3c;
+  background: #202033;
+}
+
+.tutorial-table tbody tr:hover {
+  background: #2b2b44;
+  transition: 0.25s ease;
+}
+
+/* ====== Action Buttons ====== */
+.tutorial-table td.aksi {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.aksi-btn {
+  background: #2e2e4a;
+  color: #dcdcff;
+  border: 1px solid #3c3c5c;
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.aksi-btn i {
+  font-size: 16px;
+}
+
+.aksi-btn:hover {
+  background: #5a4fff;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 8px rgba(90, 79, 255, 0.4);
+}
+
+.aksi-btn.delete:hover {
+  background: #ff4c4c;
+  box-shadow: 0 0 8px rgba(255, 76, 76, 0.5);
+}
+
+/* ====== Empty / Loading States ====== */
+.loading,
+.warn,
+.error {
+  margin-top: 20px;
+  background: #25253a;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: #bdbdf8;
+  font-size: 14px;
+}
+
+.warn {
+  background: #3a2e2e;
+  color: #f6c177;
+}
+
+.error {
+  background: #402626;
+  color: #ff8f8f;
+}
+
+.tutorial-card {
+  background: var(--card-bg, #1f1f1f);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+}
+.tutorial-card:hover {
+  transform: scale(1.02);
+}
+
+.tutorial-card-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tutorial-thumb {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.tutorial-text {
+  flex: 1;
+}
+
+.tutorial-title {
+  font-size: 16px;
+  color: #fff;
+  margin: 0;
+}
+
+.tutorial-desc {
+  font-size: 14px;
+  color: #ccc;
+  margin-top: 4px;
+}

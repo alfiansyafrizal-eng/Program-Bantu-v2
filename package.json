@@ -1,0 +1,34 @@
+{
+  "name": "program_bantu_v2",
+  "version": "1.0.0",
+  "description": "Dashboard SQL portable version",
+  "main": "server.js",
+  "type": "commonjs",
+  "bin": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "pkg . --targets node18-win-x64 --output start_server.exe"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "^5.1.0",
+    "jspdf": "^3.0.3",
+    "mssql": "9.1.1"
+  },
+  "pkg": {
+    "assets": [
+      "**/*.html",
+      "**/*.css",
+      "**/*.js",
+      "!tutorials/**/*",
+      "!node_modules/**/*",
+      "!package*.json"
+    ],
+    "targets": [
+      "node20-win-x64"
+    ]
+  }
+}
